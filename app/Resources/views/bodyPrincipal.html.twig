@@ -56,13 +56,13 @@
                         <li class="dropdown-submenu">
                             <a href="">{{app.user.fullname}}</a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{path('backend_homepage')}}">Favoritos</a></li>
+                                <li><a href="{{path('backend_homepage')}}">Administración</a></li>
                                 <li><a href="{{path('logout')}}">Desconexión</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <li><a href="{{path('login')}}">Login</a></li>
-                        <li><a href="{{path('registro')}}">Registrese</a></li>
+                        <li><a href="{{path('registro')}}">Registro</a></li>
                     {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->

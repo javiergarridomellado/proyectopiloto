@@ -63,7 +63,7 @@ class PublicController extends Controller
                       "top"=> 1));
     }
     
-    /** paginadpor **/
+    /** paginador **/
     public function getPaginate($pageSize, $currentPage, $queryBuilder){
         if ($currentPage > 0){
             $queryBuilder->setFirstResult($pageSize * ($currentPage - 1))->setMaxResults($pageSize);

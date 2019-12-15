@@ -218,8 +218,7 @@ class BackendController extends Controller
             $peliculasQuery = $em->getRepository('coreBundle:pelicula')
                     ->findAllFavoritasQuery($usuario->getId());
             $arraydisponibles = array();
-            
-            
+  
             if ($page == NULL){
                 $page = 1;
             }
