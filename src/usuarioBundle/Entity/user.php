@@ -135,6 +135,14 @@ class user implements AdvancedUserInterface
      */
     private $peliculasfavoritas;
     
+    /**
+     * tiposcentro
+     * 
+     * @var \coreBundle\Entity\votacion
+     * @ORM\OneToMany(targetEntity="\coreBundle\Entity\votacion", mappedBy="user" , cascade={"persist", "remove"})
+     */
+    private $votaciones;
+    
     public function __toString() {
         return $this->fullname . " " . $this->lastname;
     }
@@ -612,5 +620,39 @@ class user implements AdvancedUserInterface
     public function getPeliculasfavoritas()
     {
         return $this->peliculasfavoritas;
+    }
+
+    /**
+     * Add votacione
+     *
+     * @param \coreBundle\Entity\votacion $votacione
+     *
+     * @return user
+     */
+    public function addVotacione(\coreBundle\Entity\votacion $votacione)
+    {
+        $this->votaciones[] = $votacione;
+
+        return $this;
+    }
+
+    /**
+     * Remove votacione
+     *
+     * @param \coreBundle\Entity\votacion $votacione
+     */
+    public function removeVotacione(\coreBundle\Entity\votacion $votacione)
+    {
+        $this->votaciones->removeElement($votacione);
+    }
+
+    /**
+     * Get votaciones
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVotaciones()
+    {
+        return $this->votaciones;
     }
 }

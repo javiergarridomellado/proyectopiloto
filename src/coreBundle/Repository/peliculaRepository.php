@@ -12,11 +12,34 @@ class peliculaRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findAllQuery() {
         $inner = "";
-
+        $limit = "";
         $em = $this->getEntityManager();
         $where = " WHERE 1=1 ";
-        $order = " ORDER BY pelicula.votaciontotal DESC";
+        $order = " ORDER BY pelicula.votaciontotal DESC,  pelicula.nombre ASC";
+        
         $sql = " SELECT pelicula FROM coreBundle:pelicula pelicula ".$where.$order;
+        
+        $consulta = $em->createQuery($sql);
+        return $consulta; 
+    }
+    
+    public function findAllTopQuery() {
+        $inner = "";
+        $limit = "";
+        $em = $this->getEntityManager();
+        $where = " WHERE pelicula.votaciontotal > 4 ";
+        $inner = " JOIN pelicula.votaciones votacion ";
+        $where .= " AND votacion.puntuacion > 5 ";
+        $busqueda = "keane reeves";
+        $vartexto = explode(" ", str_replace("'", "''", $busqueda));
+        if ($vartexto != NULL && count($vartexto) > 0 && strlen($busqueda) > 0){
+            foreach ($vartexto as $t) {
+                $where .= " AND (pelicula.actores NOT LIKE '%" . $t . "%')";  
+            }
+        }
+        $order = " ORDER BY pelicula.votaciontotal DESC,  pelicula.nombre ASC";
+        
+        $sql = " SELECT pelicula FROM coreBundle:pelicula pelicula ".$inner.$where.$order;
         $consulta = $em->createQuery($sql);
         return $consulta; 
     }
@@ -30,7 +53,7 @@ class peliculaRepository extends \Doctrine\ORM\EntityRepository
         }
         
         $em = $this->getEntityManager();
-        $order = " ORDER BY pelicula.votaciontotal ASC";
+        $order = " ORDER BY pelicula.votaciontotal DESC";
         $sql = " SELECT pelicula FROM coreBundle:pelicula pelicula ".$inner.$where.$order;
         $consulta = $em->createQuery($sql);
         return $consulta; 

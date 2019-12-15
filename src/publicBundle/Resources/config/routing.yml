@@ -1,9 +1,13 @@
-homepage:
-    path:     /
-    defaults: { _controller: publicBundle:Public:index }
+top_peliculas:
+    path:   /top-peliculas/{page}
+    defaults: { _controller: publicBundle:Public:toppeliculas, page: null }
     
 registro:
     path:     /register/{id}
     defaults: { _controller: publicBundle:Public:register, id: null }    
+    
+homepage:
+    path:     /{page}
+    defaults: { _controller: publicBundle:Public:index, page: null }    
     
 

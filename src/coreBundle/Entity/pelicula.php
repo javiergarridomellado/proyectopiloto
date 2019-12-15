@@ -92,7 +92,7 @@ class pelicula
     /**
      * @var string
      *
-     * @ORM\Column(name="votaciontotal", type="integer")
+     * @ORM\Column(name="votaciontotal", type="float")
      */
     private $votaciontotal;
     
@@ -430,6 +430,17 @@ class pelicula
     public function getVotaciontotal()
     {
         return $this->votaciontotal;
+    }
+    
+    public function getVotos()
+    {
+        $votos = $this->votaciontotal;
+        if($this->votaciontotal < 0){
+           $votos = 0; 
+        }elseif($this->votaciontotal > 10){
+            $votos = 10;
+        }
+        return $votos;
     }
     
     function isFavourite($iduser){

@@ -10,4 +10,18 @@ namespace coreBundle\Repository;
  */
 class votacionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findPelicula($idpelicula) {
+        $inner = "";
+        $limit = "";
+        $em = $this->getEntityManager();
+        $where = " WHERE 1=1 ";
+        $inner = " JOIN votacion.pelicula pelicula ";
+        $where .= " AND pelicula.id = ".$idpelicula;
+        $order = " ORDER BY votacion.id DESC";
+        
+        $sql = " SELECT votacion FROM coreBundle:votacion votacion ".$inner.$where.$order;
+        
+        $consulta = $em->createQuery($sql)->getResult();
+        return $consulta; 
+    }
 }

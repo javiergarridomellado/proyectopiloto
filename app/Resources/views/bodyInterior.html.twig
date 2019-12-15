@@ -13,10 +13,8 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{{app.user}} <span class="caret"></span></a>
                     <ul class="dropdown-menu" style="background-color: #BB1D24;">
                         <li>
-                            {% if is_granted('ROLE_USER') %}
-                                <a href="{#{path("mi_perfil_examinador")}#}">Modificar perfil</a>
-                            {% else %}
-                                <a href="{#{path("modificar_perfil")}#}">Modificar perfil</a>
+                            {% if is_granted('ROLE_USER') or is_granted('ROLE_SUPER_ADMIN') %}
+                                <a href="">Modificar perfil</a>
                             {% endif %}    
                         </li>
                         <li><a href="{{path("logout")}}">Cerrar sesión</a></li>
@@ -48,7 +46,7 @@
                 {% if is_granted('ROLE_USER') %}
                     
                     <li class="limenusuperior">
-                        <a href="{#{path('mi_perfil_examinador')}#}" title="Mi perfil">
+                        <a href="" title="Mi perfil">
                             <i class="fas fa-user-circle"></i><span class="letramenu">&nbsp;Mi perfil</span>
                         </a>
                     </li>       

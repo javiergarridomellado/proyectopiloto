@@ -242,6 +242,7 @@ ul, ol {
 .contenedor{
     width: 100%;
     overflow-y: auto;
+    overflow-x:hidden;
 }
 
 .itemDestacado{

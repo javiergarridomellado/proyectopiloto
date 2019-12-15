@@ -18,12 +18,7 @@
 
 {% block javascripts2 %}    
 <script>
-$('#form').submit(function( event ) {
-  if(!$('#policy').prop('checked')){
-     alert( "Es necesario aceptar la politica de privacidad" );
-     event.preventDefault();
-  }
-});
+
 </script>
     {% block javascripts22 %}{% endblock %}
 {% endblock %}
@@ -37,26 +32,7 @@ $('#form').submit(function( event ) {
                 </a>
             </div>
             <div class="col-sm-8 col-xs-12 telefono">
-                {#% if not is_granted('ROLE_SUPER_ADMIN') and not is_granted('ROLE_USER') %}
-                   <a style="margin-bottom:10px" class="btn btn-primary  visible-xs-block visible-sm-block " href="{{path('login')}}">Usuario<br></a>
-                       
-                    <div class="cajaDistribuidores hidden-xs hidden-sm ">
-                          <h5>Usuarios</h5>
-                        <form action="{{path('usuarios_login_check')}}" method="POST" class="formLoginDistr" id="form">
-                            <label>Usuario</label>
-                            <input type="text" id="username" name="_username" placeholder="Usuario" autocomplete="off" /> 
-                            <label>Contraseña</label>
-                            <input type="password" id="password" name="_password" placeholder="Password" autocomplete="off" /> 
-                            <div class="">
-                                <input type="checkbox" style="margin-top:6px;" id="policy">
-                                <label class="form-check-label"  style="width:inherit;">Acepto la <a href="{#{path('page_politica_privacidad')}}">politica de privacidad</a></label>
-                            </div>
-                            <input class="btn btn-default" type="submit" name="login" value="Entrar" />
-                        </form>
-                    </div>
-                {% endif %#}
-                
-               
+ 
             </div>
         </div>
     </div>
@@ -74,32 +50,9 @@ $('#form').submit(function( event ) {
             <div class="navbar-collapse navbar-collapse-customer collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{path('homepage')}}"><span class="fa fa-home"></span> Inicio</a></li>
-                    <li class="dropdown-submenu">
-                        <a tabindex="-1" href="#">Productos</a>
-                        <ul class="dropdown-menu">
-                            {#% for categoria in categorias %}
-                                {% if (categoria.subcategories | length) > 0 %}
-                                <li class="dropdown-submenu">
-                                    <a href="{{path('page_categegoria', {'nombrecategoria': categoria.nameURL})}}">{{categoria}}</a>
-                                    <ul class="dropdown-menu">
-                                        {% for subcategoria in categoria.subcategories %}
-                                            <li><a href="{{path('page_subcategoria', {'nombrecategoria': subcategoria.category.nameURL, 'nombresubcategoria': subcategoria.nameURL})}}">{{subcategoria}}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                                {% else %}
-                                    <li><a href="{{path('page_categegoria', {'nombrecategoria': categoria.nameURL})}}">{{categoria}}</a></li>
-                                {% endif %}
-                            {% endfor %#}
-                        </ul>
-                    </li>
-                    <li><a href="{#{path('page_sobre_nosotros')}#}">Sobre nosotros</a></li>
-                    <li><a href="{#{path('page_como_alquilar')}#}">¿Cómo alquilar?</a></li>
-                    <li><a href="{#{path('page_distribuidores_maenar')}#}">Distribuidores</a></li>
-                    <li><a href="{#{path('page_segunda_mano')}#}">Segunda mano</a></li>
-                    <li><a href="{#{path('page_contacto')}#}">Contacto</a></li>
+                    
+                    <li><a href="{{path('top_peliculas')}}">Top peliculas</a></li>
                     {% if is_granted('ROLE_USER')  %}
-                        {#<li><a href="{{path('cart_show')}}"><i class="fa fa-shopping-cart iconCarrito"></i>&nbsp;<span id="articulosTotal">(&nbsp;{{carrito.articulos_total()}}&nbsp;)</span></a></li>#}
                         <li class="dropdown-submenu">
                             <a href="">{{app.user.fullname}}</a>
                             <ul class="dropdown-menu">
@@ -160,8 +113,8 @@ $('#form').submit(function( event ) {
     <div id="footer">
         <div class="container">
             <div class="col-lg-4 col-md-4 imagenFooter">
-                <a href="{{path('homepage')}}" title="Grupo maenar">
-                    <img title="proyecto piloto" src="/imagenes/logo_maenar.svg" title="Proyecto piloto">
+                <a href="{{path('homepage')}}" title="Proyectopiloto">
+                    <img title="proyecto piloto" src="/imagenes/trailer.png" title="Proyecto piloto">
                 </a>
             </div>
             <div class="col-lg-4 col-md-4 informacionFooter">
@@ -169,20 +122,11 @@ $('#form').submit(function( event ) {
                 <div class="content-block-footer">
                     <ul>
                         <li><a href="#"><i class="fa fa-angle-double-right"></i>&nbsp;</span>Sitemap</a></li>
-                        <li><a href="{#{path('page_politica_privacidad')}#}"><i class="fa fa-angle-double-right"></i>&nbsp;</span>Pol&iacute;tica de privacidad</a></li>
-                        <li><a href="{#{path('page_aviso_legal')}#}"><i class="fa fa-angle-double-right"></i>&nbsp;</span>Aviso legal</a></li>
-                        <li><a href="{#{path('login')}#}"><i class="fa fa-angle-double-right"></i>&nbsp;</span>Acceso</a></li>
-                        <li><a href="{#{path('page_contacto')}#}"><i class="fa fa-angle-double-right"></i>&nbsp;</span>Contacto</a></li>
-                        <li>
-                            <a href="{#{path('distribuidores_pedidos')}#}">
-                                <i class="fa fa-angle-double-right"></i>&nbsp;</span>Distribuidores
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{#{path('page_trabaja_nosotros')}#}">
-                                <i class="fa fa-angle-double-right"></i>&nbsp;</span>Quiere trabajar con Nosotros
-                            </a>
-                        </li>
+                        <li><a href=""><i class="fa fa-angle-double-right"></i>&nbsp;</span>Pol&iacute;tica de privacidad</a></li>
+                        <li><a href=""><i class="fa fa-angle-double-right"></i>&nbsp;</span>Aviso legal</a></li>
+                        <li><a href=""><i class="fa fa-angle-double-right"></i>&nbsp;</span>Acceso</a></li>
+                        <li><a href=""><i class="fa fa-angle-double-right"></i>&nbsp;</span>Contacto</a></li>
+                        
                     </ul>
                 </div>
             </div>
@@ -192,14 +136,10 @@ $('#form').submit(function( event ) {
                     <ul>
                         <li><a href="#"><i class="fa fa-home"></i>Malaga</a></li>
                         <li><a href="#"><i class="fa fa-mobile"></i>&nbsp;95 270 43 18</a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i>&nbsp;info@Proyecto piloto.com</a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i>&nbsp;info@Proyectopiloto.com</a></li>
                     </ul>
                 </div>
-                <ul class="payment-method">
-                    <li><a href="#" title="Payment Method"><img alt="Payment" src="/imagenes/pagos/payment-1.png"></a></li>
-                    <li><a href="#" title="Payment Method"><img alt="Payment" src="/imagenes/pagos/payment-2.png"></a></li>
-                    <li><a href="#" title="Payment Method"><img alt="Payment" src="/imagenes/pagos/payment-3.png"></a></li>
-                </ul>
+                
             </div>
         </div>
     </div>

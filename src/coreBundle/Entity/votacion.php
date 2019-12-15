@@ -40,7 +40,7 @@ class votacion
      
     /**
      * @var integer     de 0 a 10
-     * @ORM\Column(name="global", type="integer")
+     * @ORM\Column(name="puntuacion", type="integer")
      */
     private $puntuacion;
     
@@ -56,7 +56,7 @@ class votacion
      * academia
      * 
      * @var user
-     * @ORM\ManyToOne(targetEntity="\usuarioBundle\Entity\user",  inversedBy="puntuacion")= 
+     * @ORM\ManyToOne(targetEntity="\usuarioBundle\Entity\user",  inversedBy="votaciones") 
      */
     private $user;
     

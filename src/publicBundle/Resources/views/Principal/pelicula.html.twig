@@ -1,0 +1,54 @@
+<div class="itemDestacado" id="{{pelicula.id}}">
+    <div class="interiorDestacado">
+        <div class="imagenDestacado">
+            <img src="{{ pelicula.getPathcaratula()}}" title="{{pelicula.nombre}}" alt="{{pelicula.nombre}}"/>
+        </div>
+        </br>
+        <div class="tarifas">
+            <strong><p style="font-size: 10px;">{{pelicula.nombre}}</p></strong>
+        </div>
+        <div class="tarifas">
+            <p style="font-size: 10px;">{{pelicula.anio}}</p>
+        </div>
+        <div class="tarifas">
+            <p style="font-size: 10px;"><span>Votos: </span>{{pelicula.getVotos()}}</p>
+        </div>
+    </div>
+</div>
+        
+<div class="modal" id="modalpelicula{{pelicula.id}}">
+    <div class="modal-dialog" id="modalAdd-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h4 class="modal-title" id="tituloModal">{{pelicula.nombre}}</h4>
+            </div>
+            <div class="modal-body" id="divrelacionados">
+                <div class="imagenDestacado" style="width:30%;">
+                    <img  src="{{ pelicula.getPathcaratula()}}" title="{{pelicula.nombre}}" alt="{{pelicula.nombre}}"/>
+                </div>
+                </br>
+                <div class="tarifas">
+                    <strong><p>Nombre: {{pelicula.nombre}}</p></strong>
+                </div>
+                <div class="tarifas">
+                    <p>Año: {{pelicula.anio}}</p>
+                </div>
+                <div class="tarifas">
+                    <p>Director: {{pelicula.director}}</p>
+                </div>
+                <div class="tarifas">
+                    <p >Actores: {{pelicula.actores}}</p>
+                </div>
+                <div class="tarifas">
+                    <p><span>Votos: </span>{{pelicula.getVotos()}}</p>
+                </div>
+                <div class="tarifas">
+                    <p><span>Descripción: </span>{{pelicula.getDescripcion()}}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>    
+        </div>
+    </div>
+</div>        

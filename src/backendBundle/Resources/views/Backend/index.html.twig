@@ -41,7 +41,7 @@
 
             {% if peliculas|length > 0 %}
                 {% for pelicula in peliculas %}
-                    <tr>
+                    <tr id="{{pelicula.id}}">
                         <td><img style="max-width: 130px;" src="{{pelicula.getPathcaratula()}}" /></td>
                         <td>
                             {{pelicula.getNombre()}}

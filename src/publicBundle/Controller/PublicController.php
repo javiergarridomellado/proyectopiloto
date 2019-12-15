@@ -6,14 +6,74 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use usuarioBundle\Entity\userweb;
 use Symfony\Component\HttpFoundation\Request;
 use usuarioBundle\Form\usuariowebType;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class PublicController extends Controller
 {
-    public function indexAction()
+    /** indice pagina publica **/
+    public function indexAction(Request $request, $page)
     {
-        return $this->render('publicBundle:Principal:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $peliculasQuery = $em->getRepository('coreBundle:pelicula')
+                    ->findAllQuery();
+        
+        if ($page == NULL){
+            $page = 1;
+        }elseif($page > 5){
+            return $this->redirectToRoute('homepage',array('page'=>5));
+        }
+        $pageSize = 20;
+        $peliculas = $this->getPaginate($pageSize, $page, $peliculasQuery);
+        $totalItems = count($peliculas);
+        $pagescount = ceil($totalItems / $pageSize);
+        if($pagescount > 5){
+            $pagescount = 5;
+        }
+        return $this->render('publicBundle:Principal:index.html.twig',
+                array('peliculas'=>$peliculas,
+                      "totalItems" => $totalItems,
+                      "pagesCount" => $pagescount,
+                      "currentpage" => $page));
     }
     
+    /** pagina top de parte publica **/
+    public function toppeliculasAction(Request $request, $page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $peliculasQuery = $em->getRepository('coreBundle:pelicula')
+                    ->findAllTopQuery();
+        
+        if ($page == NULL){
+            $page = 1;
+        }elseif($page > 5){
+            return $this->redirectToRoute('homepage',array('page'=>5));
+        }
+        $pageSize = 20;
+        $peliculas = $this->getPaginate($pageSize, $page, $peliculasQuery);
+        $totalItems = count($peliculas);
+        $pagescount = ceil($totalItems / $pageSize);
+        if($pagescount > 5){
+            $pagescount = 5;
+        }
+        return $this->render('publicBundle:Principal:index.html.twig',
+                array('peliculas'=>$peliculas,
+                      "totalItems" => $totalItems,
+                      "pagesCount" => $pagescount,
+                      "currentpage" => $page,
+                      "top"=> 1));
+    }
+    
+    /** paginadpor **/
+    public function getPaginate($pageSize, $currentPage, $queryBuilder){
+        if ($currentPage > 0){
+            $queryBuilder->setFirstResult($pageSize * ($currentPage - 1))->setMaxResults($pageSize);
+        }
+        $paginator = new Paginator($queryBuilder, $fetchJoinCollection = true);
+        return $paginator;
+    }
+    
+    
+    /** registro usuario **/
     public function registerAction(Request $request,$id){
         $em = $this->getDoctrine()->getManager();
         $passwordobligatorio = true;
@@ -62,65 +122,6 @@ class PublicController extends Controller
     
     
     
-    public function newsuperadministradorAction(Request $request, $id){
-        if (($this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN') === true)||
-                ($this->get('security.authorization_checker')->isGranted('ROLE_ADMINISTRADOR') === true)){
-            $titulo = "";
-            $em = $this->getDoctrine()->getManager();
-            $passwordobligatorio = true;
-            if($id == NULL){
-                $usersuperadmin = new superadministrador();
-                $titulo = "Nuevo superadministrador";
-            }else{
-                $usersuperadmin = $em->getRepository('UsuarioBundle:superadministrador')->find($id);
-                $titulo = "Editar superadministrador";
-                if($usersuperadmin == NULL){
-                    $usersuperadmin = new superadministrador();
-                }else{
-                    $passwordobligatorio = false;
-                }
-            }
-            $form = $this->createForm(superadministradorType::class, $usersuperadmin,
-                    array("attr" => array( "password" => $passwordobligatorio)));   
-            $error = "";
-            if ($request->getMethod() == "POST"){
-                $lastpass = $usersuperadmin->getPassword();     
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $repetido = $em->getRepository("UsuarioBundle:usuario")->findUseremail($usersuperadmin->getEmail(), $usersuperadmin->getId());
-                    if ($repetido == NULL){
-                        if($usersuperadmin->getDate()==NULL){
-                            $usersuperadmin->setDate(new \DateTime('now'));
-                        }
-                        $newpass = $usersuperadmin->getPassword();
-                        if ($newpass != NULL){
-                            $usersuperadmin->setSalt(md5(time()));   
-                            $encoder = $this->get('security.encoder_factory')->getEncoder( $usersuperadmin);
-                            $passwordCodificado = $encoder->encodePassword($usersuperadmin->getPassword(), $usersuperadmin->getSalt());
-                            $usersuperadmin->setPassword($passwordCodificado);
-                        }else{
-                            $usersuperadmin->setPassword($lastpass);
-                        }
-                        $usersuperadmin->setUsuario($usersuperadmin->getEmail());
-                        $usersuperadmin->setBloqueado(true);
-                        $usersuperadmin->setExpirado(true);
-                        $usersuperadmin->setActivo(true);
-                        $em->persist($usersuperadmin);
-                        $em->flush();
-                        $usuario = $this->get('security.token_storage')->getToken()->getUser();
-                        \LogBundle\Controller\LogController::escribirLog($request,$usuario,$titulo);
-                        return $this->redirectToRoute('listado_usuarios');
-                    }else{
-                        $error = "El email ya está registrado";
-                    }
-                }  
-            }
-            return $this->render('UsuarioBundle:superadministrador:newsuperadministrador.html.twig',
-                array('form' => $form->createView(),'titulo'=>$titulo,
-                      'usersuperadmin' => $usersuperadmin,
-                      "error" => $error));
-        }
-        return $this->redirectToRoute('listado_usuarios');
-    }
+    
     
 }
