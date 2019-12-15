@@ -1,0 +1,13 @@
+#login_homepage:
+    #path:     /login
+    #defaults: { _controller: loginBundle:Default:index }
+    
+login:
+    path: /login
+    defaults: {_controller: loginBundle:Login:login}
+    
+login_check:
+    path: /login_check
+    
+logout:
+    path: /login_logout    

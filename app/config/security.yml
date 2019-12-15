@@ -1,33 +1,30 @@
 security:
     encoders:
-        Backend\UserBundle\Entity\administrador: {algorithm: sha512, iterations: 10}
-        Backend\UserBundle\Entity\userapp: {algorithm: sha512, iterations: 10}
+        UsuarioBundle\Entity\user: {algorithm: sha512, iterations: 10}
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
-        ROLE_USER_APP: ROLE_USER_APP
+        ROLE_USER_WEB: ROLE_USER_WEB
 
     providers:
-        usuario:
-            entity: {class: Backend\UserBundle\Entity\administrador, property: email}
-        usuarioapp:
-            entity: {class: Backend\UserBundle\Entity\userapp, property: email}
+        user:
+            entity: {class: usuarioBundle\Entity\user, property: email}
+        
 
     firewalls:
         administracion:
             pattern: ^/
-            provider: usuario
+            provider: user
             anonymous: ~ 
             form_login:
                 login_path: login
                 check_path: login_check
+                use_referer: true
+                always_use_default_target_path: true
+                default_target_path: backend_homepage
             logout:
                 path: logout
     access_control:
-        - { path: ^/mobile/*, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/administracion/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/front/*, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/app/*, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/administracion/*, roles: [ROLE_SUPER_ADMIN] }
+
+        - { path: ^/administracion/*, roles: [ROLE_SUPER_ADMIN,ROLE_USER] }
         - { path: ^/*, roles: IS_AUTHENTICATED_ANONYMOUSLY}

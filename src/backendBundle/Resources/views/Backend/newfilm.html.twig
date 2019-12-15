@@ -1,0 +1,88 @@
+{% extends '::bodyInterior.html.twig' %}
+{% block javascripts1 %}
+    
+{% endblock %}
+{% block title %}Nueva pelicula{% endblock %}
+{% block h1title %}
+    &nbsp;&nbsp;&nbsp;Nueva pelicula {% if titulo is defined %}{{titulo}}{% endif %}
+
+{% endblock %}
+{% block contenido %}
+<div class="col-md-12 col-sm-12 m-auto row">
+           <form class="well" action="{{ path('backend_new_pelicula', {'id' : pelicula.id}) }}" method="post" enctype='multipart/form-data' >
+                <div class="row">
+                    <div class="form-group col-sm-3">
+                        {{ form_label(form.nombre) }}
+                        {{form_widget(form.nombre)}}
+                    </div>
+                    <div class="form-group col-sm-3">
+                        {{ form_label(form.anio) }}
+                        {{form_widget(form.anio)}}
+                    </div>
+                    <div class="form-group col-sm-3">
+                        {{ form_label(form.director) }}
+                        {{form_widget(form.director)}}
+                    </div>
+                    
+                    <div class="form-group col-sm-3">
+                        {{ form_label(form.actores) }}
+                        {{form_widget(form.actores)}}
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{ form_label(form.descripcion) }}
+                        {{form_widget(form.descripcion)}}
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Carátula:</label>
+                        <input type="file" name="logo" 
+                               accept=" image/x-png,image/gif, image/jpeg"/>
+                        {% if pelicula.path != null %}
+                        <div class="imageempresa">
+                            <i class="fa fa-file-image"></i>
+                            <span class="eliminar" href="{#{path('delete_file_oral',{'id':convocatoria.id})}#}"><i class="far fa-trash-alt"></i></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {% if pelicula.path != null %}
+                                <img style="max-width: 600px;" src="{{pelicula.path}}" />
+                        {% endif %}
+                    </div>
+                </div>
+
+                {{form_rest(form)}}
+                    <div class="row"> 
+                        <div class="form-group col-sm-12">
+                            <a class="botonazul"  title="Volver a la página anterior" href="{{ path('backend_homepage') }}">
+                                Volver
+                            </a>
+                            <button type="submit" class="botonazul">Guardar</button>
+                        </div>
+                    </div>
+                </form> 
+</div>            
+
+{% endblock %}
+
+
+{% block javascripts2 %}
+    <script src="{{ asset('bundles/core/js/modal.js') }}"></script>  
+    <script>
+        
+    </script>   
+    <link href="{{ asset('bundles/core/css/jquery.datetimepicker.min.css') }}" rel="stylesheet">
+    <script type="text/javascript" src="{{ asset('bundles/core/js/jquery.datetimepicker.js') }}"></script>
+    <script type="text/javascript">
+        jQuery('#fecha,#fechainicio,#fechafin').datetimepicker({
+            lang:'es',
+            datepicker: true,
+            timepicker:false,
+            format:'d/m/Y',
+            dayOfWeekStart: 1,
+            closeOnDateSelect:true,
+            scrollMonth : false,
+            scrollTime: false,
+            scrollInput: false
+        });
+    </script>    
+{% endblock %}

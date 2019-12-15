@@ -1,0 +1,79 @@
+{% extends '::bodyInterior.html.twig' %}
+{% block javascripts1 %}
+    
+{% endblock %}
+{% block title %}Listado favoritas{% endblock %}
+{% block h1title %}
+    &nbsp;&nbsp;&nbsp;Listado favoritas {% if titulo is defined %}{{titulo}}{% endif %}
+
+{% endblock %}
+{% block contenido %}
+<div class="col-md-12 col-sm-12 m-auto row">
+    <div class="col-sm-6">
+        
+    </div>                        
+    <div class="col-sm-6" >
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <a type="button" href="{{path('backend_new_pelicula')}}" class="botonrojo ml-3 mb-3 float-right" >
+                <i class="fa fa-plus-circle" aria-hidden="true">
+                </i>
+                <span>&nbsp;&nbsp;Película</span>
+            </a> 
+            
+        {% endif %} 
+    </div>        
+</div>            
+<div class="col-md-12 col-sm-12 m-auto">
+    <div class="table-responsive fondoblanco">
+        <table class="table">
+          <thead>
+            <tr>
+               <th scope="col"></th> 
+               <th scope="col">Nombre</th>
+               <th scope="col">Año</th>
+               <th scope="col">Director</th>
+               <th scope="col">Actores</th>
+               <th scope="col">Votos totales</th>
+            </tr>
+          </thead>
+          <tbody>
+                <tr>
+                    <td><img style="max-width: 130px;" src="{{votacion.pelicula.getPathcaratula()}}" /></td>
+                    <td>
+                        {{votacion.pelicula.getNombre()}}
+                    </td>
+                    <td>{{votacion.pelicula.getAnio()}}</td>
+                    <td>{{votacion.pelicula.getDirector()}}</td>
+                    <td>{{votacion.pelicula.getActores()}} </td>
+                    <td>
+                        {%if votacion.pelicula.getVotaciontotal() > 100 %}100{% elseif votacion.pelicula.getVotaciontotal() < 0 %}0{%else%} {{votacion.pelicula.getVotaciontotal()}}{%endif%}
+                    </td>
+                </tr>
+          </tbody>
+        </table>
+    </div> 
+</div>    
+<div class="col-sm-6 col-lg-offset-3" style="text-align: center" >
+    <form class="well" action="{{ path('backend_add_voto', {'id' : votacion.pelicula.id}) }}" method="post" >
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label>Tu voto</label>
+                <input class="form-control" type="number" min="0" max="10" name="voto" value="{{votacion.puntuacion}}">
+            </div>
+        </div>
+        <div class="row"> 
+            <div class="form-group col-sm-12">
+
+                <button type="submit" class="botonazul">Votar</button>
+            </div>
+        </div>
+    </form> 
+</div>      
+
+
+{% endblock %}
+
+
+{% block javascripts2 %}
+       
+{% endblock %}

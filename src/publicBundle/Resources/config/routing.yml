@@ -1,0 +1,9 @@
+homepage:
+    path:     /
+    defaults: { _controller: publicBundle:Public:index }
+    
+registro:
+    path:     /register/{id}
+    defaults: { _controller: publicBundle:Public:register, id: null }    
+    
+

@@ -1,0 +1,117 @@
+{# empty Twig template #}
+{% extends '::bodyPrincipal.html.twig'%}
+
+{% block title %}Proyecto piloto{% endblock %}
+
+{% block cuerpo %}
+    <div class="col-lg-3 col-md-3">
+        <div class="mega-left-title">
+            <i class="fa fa-list"></i> <strong>Categor&iacute;as</strong>
+        </div>
+        <div class="css_effect sm_megamenu_wrapper_vertical_menu sambar" id="sm_megamenu_menu550a7f952664d" data-sam="15978902891426751381">
+            <div class="sambar-inner">
+                <a class="btn-sambar" data-sapi="collapse" href="#sm_megamenu_menu550a7f952664d">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>	
+                <ul class="sm-megamenu-hover sm_megamenu_menu ">
+                    <li class="">
+                        <form method="POST" action="{#{path('busqueda')}#}" id="formbuscar">
+                            <input type="text" name="text" />
+                            <input type="image" src="/imagenes/lupa.png" />
+                        </form>
+                    </li>
+                    {#% for categoria in categorias %}
+                        <li class="">
+                            <a href="{{path('page_categegoria', {'nombrecategoria': categoria.nameURL})}}" ><span class="">{{categoria}}</span></a>
+                        </li>
+                        {% if (categoria.subcategories | length) > 0 %}
+                            <ul class="ocultar" class="menuSubcategorias">
+                                {% for subcategoria in categoria.subcategories %}
+                                    <li><a href="{{path('page_subcategoria', {'nombrecategoria': subcategoria.category.nameURL, 'nombresubcategoria': subcategoria.nameURL})}}">{{subcategoria}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {%endfor%#}
+                </ul>
+            </div>
+        </div>
+    </div>
+                    
+    <div class="col-lg-9 col-md-9">
+	<div class="deal-wrapper">
+            <div class="block-title-default">
+                <h2><span>Destacados</span></h2><div class="triangulo_bottom_left">&nbsp;</div>
+            </div>
+            <div class="contenedor">
+                {% set indice = 0 %}
+                {#% for producto in ultimos %}
+                    {% set indice = indice + 1 %}
+                    {% include 'principalBundle:Principal/product:product.html.twig'%}
+                {% endfor %#}
+            </div>
+        </div>							
+    </div>
+<div class="modal" id="modalAdd">
+    <div class="modal-dialog" id="modalAdd-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="tituloModal">Se agregó correctamente el producto</h4>
+            </div>
+            <div class="modal-body" id="divrelacionados">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modalAdd2">
+    <div class="modal-dialog" id="modalAdd-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Se agregó correctamente el producto</h4>
+            </div>
+            <div class="modal-body" id="divrelacionados">
+                
+            </div>
+        </div>
+    </div>
+</div>
+                
+<div class="modal" id="modalprecios">
+    <div class="modal-dialog" id="modalprecios-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="divprecios">
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts22 %}
+    <script type="text/javascript">
+        var urlAniadirProducto = "{#{path('cart_add')}#}";
+        var urlvertarifas = "{#{path('ver_tarifas')}#}";
+    </script>
+    <script src="{#{ asset('bundles/principal/js/carrito.js') }#}"></script>
+    <script type="text/javascript">
+        $('.vertarifas').click(function(e){
+            e.preventDefault();
+            var idproducto = parseInt($(this).attr('id'));
+            if (idproducto > 0){
+                $.ajax({
+                     url: urlvertarifas,
+                     data:  {'idproducto': idproducto},
+                     type: "POST", 
+                     success:function(result){
+                         if (result != ""){
+                            var obj = JSON.parse(result);
+                            $('#divprecios').html(obj.html);
+                            $('#modalprecios').modal();
+                         }
+                     }
+                 });
+             }
+        });
+    </script>
+{% endblock %}

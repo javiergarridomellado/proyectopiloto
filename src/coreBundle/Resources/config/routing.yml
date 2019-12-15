@@ -1,0 +1,3 @@
+core_homepage:
+    path:     /variables
+    defaults: { _controller: coreBundle:Default:index }

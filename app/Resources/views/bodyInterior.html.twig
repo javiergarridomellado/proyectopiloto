@@ -1,0 +1,67 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset("bundles/core/css/dashboard.css")}}">
+{% endblock %}
+{% block body %}
+    <div id="containerinterior" >
+        <div id="menuinterior">
+            <div id="divh1title">
+                <h1 id="h1title">{% block h1title %}{% endblock %}</h1>
+            </div>
+            <ul id="menulogin">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{{app.user}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="background-color: #BB1D24;">
+                        <li>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{#{path("mi_perfil_examinador")}#}">Modificar perfil</a>
+                            {% else %}
+                                <a href="{#{path("modificar_perfil")}#}">Modificar perfil</a>
+                            {% endif %}    
+                        </li>
+                        <li><a href="{{path("logout")}}">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div id="menusuperior">
+            <ul class="ulmenusuperior">
+                <li class="limenusuperior">
+                    <a href="{{path('homepage')}}" title="Inicio">
+                        <i class="fa fa-file"></i><span class="letramenu">&nbsp;Inicio</span>
+                    </a>
+                </li>
+                {% if (is_granted('ROLE_USER') ) %}
+                    <li class="limenusuperior">
+                        <a href="{{path('backend_homepage')}}" title="Todas las películas">
+                            <span class="letramenu">&nbsp;Peliculas</span>
+                        </a>
+                    </li>
+                    <li class="limenusuperior">
+                        <a href="{{path('backend_favoritas')}}" title="Mis favoritas">
+                            <span class="letramenu">&nbsp;Mis favoritas</span>
+                        </a>
+                    </li>
+                {% endif %}  
+                     
+               
+                {% if is_granted('ROLE_USER') %}
+                    
+                    <li class="limenusuperior">
+                        <a href="{#{path('mi_perfil_examinador')}#}" title="Mi perfil">
+                            <i class="fas fa-user-circle"></i><span class="letramenu">&nbsp;Mi perfil</span>
+                        </a>
+                    </li>       
+                {% endif %}
+                
+            </ul>    
+        </div>            
+        <div id="conenidointerior">
+            {% block contenido %}{% endblock %}
+        </div>
+    </div>
+    {% block javascripts2 %}{% endblock %}
+    <script type="text/javascript">
+        
+    </script>
+{% endblock %}

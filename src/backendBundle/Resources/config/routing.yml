@@ -1,0 +1,19 @@
+backend_add_voto:
+    path:   /add-voto/{id}/
+    defaults: { _controller: backendBundle:Backend:addvoto }
+    
+backend_add_favorita:
+    path:   /add-favorita/{id}/
+    defaults: { _controller: backendBundle:Backend:addfavorita }
+
+backend_favoritas:
+    path:     /favoritas/{page}
+    defaults: { _controller: backendBundle:Backend:favoritas, page: null }
+
+backend_homepage:
+    path:     /index/{page}
+    defaults: { _controller: backendBundle:Backend:index, page: null }
+    
+backend_new_pelicula:
+    path:   /new-film/{id}
+    defaults: { _controller: backendBundle:Backend:newfilm, id: null }
